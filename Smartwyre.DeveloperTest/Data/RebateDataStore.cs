@@ -1,17 +1,34 @@
-﻿using Smartwyre.DeveloperTest.Types;
+﻿using Microsoft.EntityFrameworkCore;
+using Smartwyre.DeveloperTest.Types;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Smartwyre.DeveloperTest.Data;
 
-public class RebateDataStore
+public class RebateDataStore : IRebateDataStore
 {
-    public Rebate GetRebate(string rebateIdentifier)
+    private readonly RebateDbContext dbContext;
+
+    public RebateDataStore(RebateDbContext dbContext)
     {
-        // Access database to retrieve account, code removed for brevity 
-        return new Rebate();
+        this.dbContext = dbContext;
     }
 
-    public void StoreCalculationResult(Rebate account, decimal rebateAmount)
+    public async Task<Rebate> GetRebateAsync(string rebateIdentifier)
     {
-        // Update account in database, code removed for brevity
+        return await dbContext.Rebates.FirstOrDefaultAsync(r => r.Identifier == rebateIdentifier);
+    }
+
+    public async Task StoreCalculationResultAsync(Rebate account, decimal rebateAmount)
+    {
+        var calculation = new RebateCalculation
+        {
+            RebateIdentifier = account.Identifier,
+            IncentiveType = account.Incentive,
+            Amount = rebateAmount
+        };
+
+        dbContext.RebateCalculations.Add(calculation);
+        await dbContext.SaveChangesAsync();
     }
 }
