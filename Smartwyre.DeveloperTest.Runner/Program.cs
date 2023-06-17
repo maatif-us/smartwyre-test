@@ -44,8 +44,6 @@ namespace Smartwyre.DeveloperTest.Runner
                 {
                     Console.WriteLine("Rebate calculation failed!");
                 }
-
-                Console.ReadLine();
             }
             catch(Exception ex)
             {
@@ -84,7 +82,6 @@ namespace Smartwyre.DeveloperTest.Runner
                 Uom = productUOM,
                 SupportedIncentives = productIncentive
             };
-            //decimal volume = GetDecimalUserInput("Enter Incentives: ");
         }
 
         private static Rebate GetRebateInfo()
