@@ -12,7 +12,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_ValidFixedCashAmount_ReturnsSuccessfulCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 
@@ -52,7 +51,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_ValidFixedRateRebate_ReturnsSuccessfulCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 
@@ -92,7 +90,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_ValidAmountPerUom_ReturnsSuccessfulCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 
@@ -132,7 +129,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_InvalidFixedCashAmount_ReturnsFailedCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 
@@ -172,7 +168,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_InvalidFixedRateRebate_ReturnsFailedCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 
@@ -212,7 +207,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_InvalidAmountPerUom_ReturnsFailedCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 
@@ -251,7 +245,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_RebateNotFound_ReturnsFailedCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 
@@ -278,7 +271,6 @@ public class RebateServiceTests
     [Fact]
     public async Task CalculateAsync_ProductNotFound_ReturnsFailedCalculation()
     {
-        // Arrange
         var rebateDataStoreMock = new Mock<IRebateDataStore>();
         var productDataStoreMock = new Mock<IProductDataStore>();
 

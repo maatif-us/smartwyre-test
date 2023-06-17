@@ -7,5 +7,6 @@ namespace Smartwyre.DeveloperTest.Data
     {
         Task<Rebate> GetRebateAsync(string rebateIdentifier);
         Task StoreCalculationResultAsync(Rebate rebate, decimal rebateAmount);
+        Task SaveRebateAsync(Rebate rebate);
     }
 }

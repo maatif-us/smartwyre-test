@@ -1,5 +1,6 @@
 ﻿using Smartwyre.DeveloperTest.Data;
 using Smartwyre.DeveloperTest.Types;
+using System;
 using System.Threading.Tasks;
 
 namespace Smartwyre.DeveloperTest.Services
@@ -15,12 +16,18 @@ namespace Smartwyre.DeveloperTest.Services
             this.productDataStore = productDataStore;
         }
 
+        public async Task InsertRebateAndProduct(Rebate rebate, Product product)
+        {
+            await rebateDataStore.SaveRebateAsync(rebate);
+            await productDataStore.SaveProductAsync(product);
+        }
+
         public async Task<CalculateRebateResult> CalculateAsync(CalculateRebateRequest request)
         {
 
             Rebate rebate = await rebateDataStore.GetRebateAsync(request.RebateIdentifier);
             Product product = await productDataStore.GetProductAsync(request.ProductIdentifier);
-
+            SupportedIncentiveType productIncentive = product.SupportedIncentives;
 
             var result = new CalculateRebateResult();
             decimal rebateAmount = 0m;
@@ -36,7 +43,7 @@ namespace Smartwyre.DeveloperTest.Services
                 switch (rebate.Incentive)
                 {
                     case IncentiveType.FixedCashAmount:
-                        if (rebate.Amount == 0 || !product.SupportedIncentives.HasFlag(SupportedIncentiveType.FixedCashAmount))
+                        if (rebate.Amount == 0 || !productIncentive.HasFlag(SupportedIncentiveType.FixedCashAmount))
                         {
                             result.Success = false;
                         }
@@ -48,7 +55,7 @@ namespace Smartwyre.DeveloperTest.Services
                         break;
 
                     case IncentiveType.FixedRateRebate:
-                        if (rebate.Percentage == 0 || product.Price == 0 || request.Volume == 0 || !product.SupportedIncentives.HasFlag(SupportedIncentiveType.FixedRateRebate))
+                        if (rebate.Percentage == 0 || product.Price == 0 || request.Volume == 0 || !productIncentive.HasFlag(SupportedIncentiveType.FixedRateRebate))
                         {
                             result.Success = false;
                         }
@@ -60,7 +67,7 @@ namespace Smartwyre.DeveloperTest.Services
                         break;
 
                     case IncentiveType.AmountPerUom:
-                        if (rebate.Amount == 0 || request.Volume == 0 || !product.SupportedIncentives.HasFlag(SupportedIncentiveType.AmountPerUom))
+                        if (rebate.Amount == 0 || request.Volume == 0 || !productIncentive.HasFlag(SupportedIncentiveType.AmountPerUom))
                         {
                             result.Success = false;
                         }
@@ -76,6 +83,7 @@ namespace Smartwyre.DeveloperTest.Services
             if (result.Success)
             {
                 await rebateDataStore.StoreCalculationResultAsync(rebate, rebateAmount);
+                result.RebateAmount = rebateAmount;
             }
 
             return result;

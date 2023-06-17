@@ -19,6 +19,17 @@ public class RebateDataStore : IRebateDataStore
         return await dbContext.Rebates.FirstOrDefaultAsync(r => r.Identifier == rebateIdentifier);
     }
 
+    public async Task SaveRebateAsync(Rebate rebate)
+    {
+        var obj = await GetRebateAsync(rebate.Identifier);
+
+        if (obj == null)
+        {
+            dbContext.Rebates.Add(rebate);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
     public async Task StoreCalculationResultAsync(Rebate account, decimal rebateAmount)
     {
         var calculation = new RebateCalculation

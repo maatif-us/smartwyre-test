@@ -12,6 +12,15 @@ namespace Smartwyre.DeveloperTest.Data
         {
             this.dbContext = dbContext;
         }
+        public async Task SaveProductAsync(Product product)
+        {
+            var obj = await GetProductAsync(product.Identifier);
+            if(obj == null)
+            {
+                dbContext.Products.Add(product);
+                await dbContext.SaveChangesAsync();
+            }
+        }
 
         public async Task<Product> GetProductAsync(string productIdentifier)
         {

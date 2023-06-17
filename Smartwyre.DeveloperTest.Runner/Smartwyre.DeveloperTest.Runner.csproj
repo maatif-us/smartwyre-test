@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <connectionStrings>  
-   <add name="myconnection" connectionString="Data Source=DESKTOP-433KV5D\\SQLEXPRESS06;Initial Catalog=RebateDatabase;Integrated Security=True;TrustServerCertificate=True;" providerName="System.Data.SqlClient" />  
-    </connectionStrings>
     <OutputType>Exe</OutputType>
 	<TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
