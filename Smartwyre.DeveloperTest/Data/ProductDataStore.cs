@@ -1,12 +1,30 @@
 ﻿using Smartwyre.DeveloperTest.Types;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace Smartwyre.DeveloperTest.Data;
-
-public class ProductDataStore
+namespace Smartwyre.DeveloperTest.Data
 {
-    public Product GetProduct(string productIdentifier)
+    public class ProductDataStore : IProductDataStore
     {
-        // Access database to retrieve account, code removed for brevity 
-        return new Product();
+        private readonly RebateDbContext dbContext;
+
+        public ProductDataStore(RebateDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+        public async Task SaveProductAsync(Product product)
+        {
+            var obj = await GetProductAsync(product.Identifier);
+            if(obj == null)
+            {
+                dbContext.Products.Add(product);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Product> GetProductAsync(string productIdentifier)
+        {
+            return await dbContext.Products.FirstOrDefaultAsync(p => p.Identifier == productIdentifier);
+        }
     }
 }
